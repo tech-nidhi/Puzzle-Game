@@ -6,7 +6,6 @@ import os
 
 # Initialize pygame
 pygame.init()
-pygame.mixer.init()
 
 # Game constants
 SCREEN_WIDTH = 800
@@ -25,19 +24,6 @@ RED = (200, 0, 0)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Enhanced Sliding Puzzle")
 clock = pygame.time.Clock()
-
-# Load sounds
-try:
-    move_sound = pygame.mixer.Sound("move.wav")
-    success_sound = pygame.mixer.Sound("success.wav")
-    click_sound = pygame.mixer.Sound("click.wav")
-    hint_sound = pygame.mixer.Sound("hint.wav")
-except:
-    # Create placeholder sounds if files don't exist
-    move_sound = pygame.mixer.Sound(pygame.sndarray.array([0] * 8000))
-    success_sound = pygame.mixer.Sound(pygame.sndarray.array([0] * 8000))
-    click_sound = pygame.mixer.Sound(pygame.sndarray.array([0] * 8000))
-    hint_sound = pygame.mixer.Sound(pygame.sndarray.array([0] * 8000))
 
 # Sample images for puzzles
 sample_images = [
@@ -242,9 +228,6 @@ class PuzzleGame:
                     self.empty_x, self.empty_y = x, y
                     self.moves += 1
 
-                    if play_sound:
-                        move_sound.play()
-                    
                     if self.moves > 0:
                         self.check_solved()
                         return True
@@ -272,7 +255,6 @@ class PuzzleGame:
 
         if self.solved:
             self.elapsed_time = time.time() - self.start_time
-            success_sound.play()
 
     def show_hint(self):
         # Find a tile that's out of place and highlight it
@@ -289,7 +271,6 @@ class PuzzleGame:
                 tile = self.get_tile_at(x, y)
                 if tile and tile.value != expected_value:
                     self.hint_tile = tile
-                    hint_sound.play()
                     return
 
     def update(self):
@@ -436,7 +417,6 @@ class Menu:
             if self.state == "main":
                 for i, button in enumerate(self.main_buttons):
                     if button.is_clicked(pos):
-                        click_sound.play()
                         if i == 0:  # Start Game
                             self.game = PuzzleGame(self.difficulty, self.image_choice)
                             self.state = "game"
@@ -450,7 +430,6 @@ class Menu:
             elif self.state == "difficulty":
                 for i, button in enumerate(self.difficulty_buttons):
                     if button.is_clicked(pos):
-                        click_sound.play()
                         if i == 0:  # Easy
                             self.difficulty = 3
                             self.state = "main"
@@ -466,7 +445,6 @@ class Menu:
             elif self.state == "image_select":
                 for i, button in enumerate(self.image_buttons):
                     if button.is_clicked(pos):
-                        click_sound.play()
                         if i < len(sample_images):  # Image selection
                             self.image_choice = sample_images[i]["name"]
                             self.state = "main"
@@ -477,7 +455,6 @@ class Menu:
                 # Check game buttons
                 for i, button in enumerate(self.game_buttons):
                     if button.is_clicked(pos):
-                        click_sound.play()
                         if i == 0:  # Restart
                             self.game = PuzzleGame(self.difficulty, self.image_choice)
                         elif i == 1:  # Menu
