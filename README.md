@@ -1,6 +1,6 @@
 # Sliding Puzzle Game
 
-A classic sliding puzzle game built with Python and Pygame, developed using the AI-powered **Amazon Q CLI**. This project was created as part of the **“Build Games with Amazon Q CLI”** campaign, showcasing AI-assisted game development with natural language commands.
+I developed A classic sliding puzzle gamewith Python and Pygame,  using the AI-powered **Amazon Q CLI**. This project was created as part of the **“Build Games with Amazon Q CLI”** campaign, showcasing AI-assisted game development with natural language commands.
 
 ---
 
